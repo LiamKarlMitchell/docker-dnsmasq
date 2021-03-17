@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  dnsmasq:
+    build: .
+    restart: always
+    environment:
+      HTTP_USER: ${HTTP_USER:-foo}
+      HTTP_PASS: ${HTTP_PASS:-bar}
+    ports:
+      - ${DNS_PORT:-53}:53/udp
+      - ${HTTP_PORT:-5380}:8080
+    volumes:
+      - ./dnsmasq.conf:/etc/dnsmasq.conf
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
